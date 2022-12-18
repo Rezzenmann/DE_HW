@@ -1,6 +1,11 @@
 from typing import List, Dict, Any
+import requests
+import os
+from dotenv import load_dotenv
 
+load_dotenv('../../.env')
 API_URL = 'https://fake-api-vycpfa6oca-uc.a.run.app/'
+AUTH_TOKEN = os.environ['AUTH_TOKEN']
 
 
 def get_sales(date: str) -> List[Dict[str, Any]]:
@@ -9,21 +14,18 @@ def get_sales(date: str) -> List[Dict[str, Any]]:
     :param date: data retrieve the data from
     :return: list of records
     """
-    # TODO: implement me
+    page = 1
+    data = []
 
-    # dummy return:
-    return [
-        {
-            "client": "Tara King",
-            "purchase_date": "2022-08-09",
-            "product": "Phone",
-            "price": 1062
-        },
-        {
-            "client": "Lauren Hawkins",
-            "purchase_date": "2022-08-09",
-            "product": "TV",
-            "price": 1373
-        },
-        # ...
-    ]
+    while True:
+        response = requests.get(
+            url='https://fake-api-vycpfa6oca-uc.a.run.app/sales',
+            params={'date': date, 'page': page},
+            headers={'Authorization': AUTH_TOKEN},
+        )
+        if int(response.status_code) != 200:
+            break
+        data = data + response.json()
+        page = page + 1
+
+    return data
