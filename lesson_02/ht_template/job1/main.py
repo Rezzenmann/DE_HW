@@ -29,13 +29,17 @@ def main() -> flask_typing.ResponseReturnValue:
     }
     """
     input_data: dict = request.json
-    # TODO: implement me
     date = input_data.get('date')
     raw_dir = input_data.get('raw_dir')
 
     if not date:
         return {
                    "message": "date parameter missed",
+               }, 400
+
+    if not raw_dir:
+        return {
+                   "message": "raw_dir parameter missed",
                }, 400
 
     save_sales_to_local_disk(date=date, raw_dir=raw_dir)

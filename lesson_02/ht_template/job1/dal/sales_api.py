@@ -3,7 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
-load_dotenv('../../.env')
+load_dotenv('D:\DE_HW\lesson_02\.env')
 API_URL = 'https://fake-api-vycpfa6oca-uc.a.run.app/'
 AUTH_TOKEN = os.environ['AUTH_TOKEN']
 
@@ -23,9 +23,14 @@ def get_sales(date: str) -> List[Dict[str, Any]]:
             params={'date': date, 'page': page},
             headers={'Authorization': AUTH_TOKEN},
         )
-        if int(response.status_code) != 200:
+        if int(response.status_code) != 200 or len(response.json()) < 1:
+            if page == 1:
+                return [{
+                           "message": "date parameter is wrong",
+                       }, 400]
             break
         data = data + response.json()
         page = page + 1
 
     return data
+
