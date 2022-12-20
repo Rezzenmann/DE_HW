@@ -3,9 +3,11 @@ Tests for main.py
 # TODO: write tests
 """
 from unittest import TestCase, mock
-
+from dotenv import load_dotenv
 # NB: avoid relative imports when you will write your code
 from lesson_02.ht_template.job1 import main
+
+load_dotenv('../../../.env')
 
 
 class MainFunctionTestCase(TestCase):
@@ -15,10 +17,8 @@ class MainFunctionTestCase(TestCase):
         main.app.testing = True
         cls.client = main.app.test_client()
 
-    @mock.patch('lesson_02.ht_template.job1.main.save_sales_to_local_disk')
     def test_return_400_date_param_missed(
             self,
-            get_sales_mock: mock.MagicMock
     ):
         """
         Raise 400 HTTP code when no 'date' param
@@ -33,9 +33,7 @@ class MainFunctionTestCase(TestCase):
 
         self.assertEqual(400, resp.status_code)
 
-    @mock.patch('lesson_02.ht_template.job1.main.save_sales_to_local_disk')
-    def test_return_400_raw_dir_param_missed(self,
-                                             get_sales_mock: mock.MagicMock):
+    def test_return_400_raw_dir_param_missed(self):
         """
         Raise 400 HTTP code when no 'raw_dir' param
         """
@@ -70,6 +68,7 @@ class MainFunctionTestCase(TestCase):
             date=fake_date,
             raw_dir=fake_raw_dir,
         )
+
 
     def test_return_201_when_all_is_ok(
             self,
