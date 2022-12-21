@@ -1,4 +1,6 @@
 from typing import List, Dict, Any
+
+import fastavro
 from fastavro import writer, parse_schema
 import shutil
 import os
@@ -29,6 +31,8 @@ def save_data_to_avro(data: List[Dict[str, Any]], stg_dir: str, date: str) -> No
         shutil.rmtree(os.path.abspath(os.path.join(stg_dir, os.pardir)))
 
     os.makedirs(stg_dir)
+
+    fastavro.validation.validate(data[0], parsed_schema)
 
     with open(f'{stg_dir}/{date}.avro', 'wb') as f_o:
         writer(f_o, parsed_schema, data)
