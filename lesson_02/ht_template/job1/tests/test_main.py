@@ -3,9 +3,11 @@ Tests for main.py
 # TODO: write tests
 """
 from unittest import TestCase, mock
-
+from dotenv import load_dotenv
 # NB: avoid relative imports when you will write your code
-from .. import main
+from lesson_02.ht_template.job1 import main
+
+load_dotenv('../../../.env')
 
 
 class MainFunctionTestCase(TestCase):
@@ -15,10 +17,8 @@ class MainFunctionTestCase(TestCase):
         main.app.testing = True
         cls.client = main.app.test_client()
 
-    @mock.patch('lesson_02.ht_template.job1.main.save_sales_to_local_disk')
     def test_return_400_date_param_missed(
             self,
-            get_sales_mock: mock.MagicMock
     ):
         """
         Raise 400 HTTP code when no 'date' param
@@ -34,7 +34,17 @@ class MainFunctionTestCase(TestCase):
         self.assertEqual(400, resp.status_code)
 
     def test_return_400_raw_dir_param_missed(self):
-        pass
+        """
+        Raise 400 HTTP code when no 'raw_dir' param
+        """
+        resp = self.client.post(
+            '/',
+            json={
+                'date': '2022-08-10',
+                # no 'raw_dir' set!
+            },
+        )
+        self.assertEqual(400, resp.status_code)
 
     @mock.patch('lesson_02.ht_template.job1.main.save_sales_to_local_disk')
     def test_save_sales_to_local_disk(
@@ -59,9 +69,8 @@ class MainFunctionTestCase(TestCase):
             raw_dir=fake_raw_dir,
         )
 
-    @mock.patch('lesson_02.ht_template.job1.main.save_sales_to_local_disk')
+
     def test_return_201_when_all_is_ok(
             self,
-            get_sales_mock: mock.MagicMock
     ):
         pass
