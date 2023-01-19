@@ -17,7 +17,6 @@ def call_job1(date: str, raw_dir: str) -> None:
       "raw_dir": "raw/sales/2022-08-09"
     }
     """
-    print(type(date))
     resp = requests.post(
         url='http://localhost:8081/',
         json={
