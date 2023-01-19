@@ -11,5 +11,5 @@ def save_sales_to_local_disk_in_avro(raw_dir: str, stg_dir: str, date: str) -> N
     # 1. get data from the file
     sales = read_sales.get_sales_from_file(raw_dir, date)
     # 2. save data to avro
-    save_avro.save_data_to_avro(sales, stg_dir, date)
+    save_avro.save_sales_to_avro(sales, stg_dir, date)
 

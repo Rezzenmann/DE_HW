@@ -6,7 +6,7 @@ import shutil
 import os
 
 
-def save_data_to_avro(data: List[Dict[str, Any]], stg_dir: str, date: str) -> None:
+def save_sales_to_avro(data: List[Dict[str, Any]], stg_dir: str, date: str) -> None:
     """
     :param data: sales data list
     :param stg_dir: directory to save AVRO file
