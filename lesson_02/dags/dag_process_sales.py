@@ -69,16 +69,6 @@ with DAG(
         dag=dag
     )
 
-    # extract_data_from_api = SimpleHttpOperator(
-    #     task_id='extract_data_from_api',
-    #     http_conn_id='local_8081_job1',
-    #     endpoint='/',
-    #     method='POST',
-    #     data=f'date={{ ds }}&raw_dir={os.path.join(RAW_DIR, "2022-08-09")}',
-    #     headers={"Content-Type": "application/json"},
-    #     dag=dag
-    # )
-
     extract_data_from_api = PythonOperator(
         task_id='extract_data_from_api',
         python_callable=call_job1,

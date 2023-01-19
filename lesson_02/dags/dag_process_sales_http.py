@@ -53,6 +53,11 @@ with DAG(
         dag=dag
     )
 
-    start >> extract_data_from_api >> convert_to_avro
+    end = EmptyOperator(
+        task_id='end',
+        dag=dag
+    )
+
+    start >> extract_data_from_api >> convert_to_avro >> end
 
 
