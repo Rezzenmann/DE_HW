@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv('D:\DE_HW\lesson_02\.env')
+load_dotenv('../../.env')
 API_URL = 'https://fake-api-vycpfa6oca-uc.a.run.app/'
 AUTH_TOKEN = os.environ['AUTH_TOKEN']
 

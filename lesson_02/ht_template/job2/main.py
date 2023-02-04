@@ -40,7 +40,7 @@ def main() -> flask_typing.ResponseReturnValue:
                    "message": "stg_dir parameter missed",
                }, 400
 
-    if not os.path.exists(raw_dir):
+    if not os.path.exists(os.path.join(BASE_DIR, raw_dir)):
         return {
             'message': 'no data for that raw_dir'
         }, 400
@@ -50,7 +50,9 @@ def main() -> flask_typing.ResponseReturnValue:
                    'message': 'different dates were sent'
                }, 400
 
-    save_sales_to_local_disk_in_avro(raw_dir, stg_dir, date=raw_dir[-10:])
+    save_sales_to_local_disk_in_avro(os.path.join(BASE_DIR, raw_dir),
+                                     os.path.join(BASE_DIR, stg_dir),
+                                     date=raw_dir[-10:])
 
     return {
                "message": "Data formatted to Avro successfully",
@@ -58,4 +60,4 @@ def main() -> flask_typing.ResponseReturnValue:
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=8082)
+    app.run(debug=True, host="0.0.0.0", port=8082)

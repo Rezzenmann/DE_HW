@@ -14,8 +14,8 @@ if not BASE_DIR:
 JOB1_PORT = 8081
 JOB2_PORT = 8082
 
-RAW_DIR = os.path.join(BASE_DIR, "raw", "sales", "2022-08-10")
-STG_DIR = os.path.join(BASE_DIR, "stg", "sales", "2022-08-10")
+RAW_DIR = os.path.join("raw", "sales", "2022-08-09")
+STG_DIR = os.path.join( "stg", "sales", "2022-08-09")
 
 
 def run_job1():
@@ -23,7 +23,7 @@ def run_job1():
     resp = requests.post(
         url=f'http://localhost:{JOB1_PORT}/',
         json={
-            "date": "2022-08-10",
+            "date": "2022-08-09",
             "raw_dir": RAW_DIR
         }
     )
