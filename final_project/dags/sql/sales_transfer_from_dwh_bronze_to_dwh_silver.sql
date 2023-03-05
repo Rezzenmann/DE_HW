@@ -14,7 +14,7 @@ INSERT `de2022-stanislav-rezen.silver.sales` (
 )
 SELECT
     client,
-    CAST(purchase_date AS DATE) AS purchase_date,
+    safe_cast(replace(purchase_date, '/', '-') as DATE) AS purchase_date,
     product,
     safe_cast(replace(replace(price, '$', ''), 'USD','') as INTEGER) as price,
     _id,

@@ -3,7 +3,8 @@ from datetime import datetime
 from airflow import DAG
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
 
-from table_defs.sales_csv import sales_csv
+from table_defs.customers_csv import customers_csv
+
 
 DEFAULT_ARGS = {
     'depends_on_past': True,
@@ -12,16 +13,15 @@ DEFAULT_ARGS = {
 }
 
 with DAG(
-        dag_id='process_sales',
-        description="Ingest and process sales data",
-        start_date=datetime(2022, 9, 1),
-        end_date=datetime(2022, 9, 30),
+        dag_id='process_customers',
+        description="Ingest and process customers data",
+        start_date=datetime(2022, 8, 1),
+        end_date=datetime(2022, 8, 5),
         schedule_interval="@daily",
         catchup=True,
-        tags=['sales'],
+        tags=['customers'],
         default_args=DEFAULT_ARGS,
         max_active_runs=1
-
 ) as dag:
 
     dag.doc_md = __doc__
@@ -35,10 +35,10 @@ with DAG(
         project_id='de2022-stanislav-rezen',
         configuration={
             "query": {
-                "query": "{% include 'sql/sales_transfer_from_data_lake_raw_to_bronze.sql' %}",
+                "query": "{% include 'sql/customers_transfer_from_data_lake_raw_to_bronze.sql' %}",
                 "useLegacySql": False,
                 "tableDefinitions": {
-                    "sales_csv": sales_csv,
+                    "customers_csv": customers_csv,
                 },
             }
         },
@@ -48,6 +48,7 @@ with DAG(
         },
     )
 
+
     transfer_from_dwh_bronze_to_dwh_silver = BigQueryInsertJobOperator(
         task_id='transfer_from_dwh_bronze_to_dwh_silver',
         dag=dag,
@@ -56,7 +57,7 @@ with DAG(
         project_id='de2022-stanislav-rezen',
         configuration={
             "query": {
-                "query": "{% include 'sql/sales_transfer_from_dwh_bronze_to_dwh_silver.sql' %}",
+                "query": "{% include 'sql/customers_transfer_from_dwh_bronze_to_dwh_silver.sql' %}",
                 "useLegacySql": False,
             }
         },
