@@ -7,7 +7,7 @@ from table_defs.sales_csv import sales_csv
 
 DEFAULT_ARGS = {
     'depends_on_past': True,
-    'retries': 0,
+    'retries': 3,
     'retry_delay': 5,
 }
 
@@ -25,7 +25,6 @@ with DAG(
 ) as dag:
 
     dag.doc_md = __doc__
-
 
     transfer_from_data_lake_to_raw = BigQueryInsertJobOperator(
         task_id='transfer_from_data_lake_to_raw',

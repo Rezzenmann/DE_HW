@@ -7,7 +7,7 @@ from table_defs.user_profiles_jsonl import user_profiles_jsonl
 
 DEFAULT_ARGS = {
     'depends_on_past': True,
-    'retries': 0,
+    'retries': 3,
     'retry_delay': 5,
 }
 
@@ -15,13 +15,12 @@ with DAG(
         dag_id='process_user_profiles',
         description="Ingest and process user profiles data",
         schedule_interval=None,
-        start_date=datetime(2023,3,5),
+        start_date=datetime(2023,3,4),
         tags=['user_profiles'],
-        default_args=DEFAULT_ARGS,
-        max_active_runs=1
+        default_args=DEFAULT_ARGS
 ) as dag:
-    dag.doc_md = __doc__
 
+    dag.doc_md = __doc__
 
     transfer_from_data_lake_to_silver = BigQueryInsertJobOperator(
         task_id='transfer_from_data_lake_to_silver',
